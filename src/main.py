@@ -4,6 +4,8 @@ class LoginDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login")
+        # self.master_username = ""
+        # self.master_password = ""
 
         #Username Field
         self.username_input = QLineEdit(self)
@@ -40,19 +42,31 @@ class LoginDialog(QDialog):
         else:
             self.message_label.setText("Invalid username or password")
         
+# class CreateMasterUser(QDialog):
+
+
 
 class MainAppWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Password Manager")
+        self.setWindowTitle("Turtle Key Password Manager")
 
-        #Placeholder task request for password manager
-        self.task_input = QLineEdit(self)
-        self.task_input.setPlaceholderText("What would you like to do today?")
+        #Buttoms for task requests for password manager
+        all_button = QPushButton("All Passwords", self)
+        wifi_button = QPushButton("Wifi Passwords", self)
+        deleted_button = QPushButton("Deleted Passwords", self)
+        password_creation = QPushButton("New Password Entry", self)
         
         layout = QVBoxLayout()
-        layout.addWidget(self.task_input)
-        self.setLayout(layout)
+        layout.addWidget(all_button)
+        layout.addWidget(wifi_button)
+        layout.addWidget(deleted_button)
+        layout.addWidget(password_creation)
+
+        central_widget = QWidget()
+        central_widget.setLayout(layout)
+
+        self.setCentralWidget(central_widget)
 
         self.setGeometry(100,100,600,400)
 
