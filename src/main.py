@@ -53,22 +53,51 @@ class MainAppWindow(QMainWindow):
 
         #Buttoms for task requests for password manager
         all_button = QPushButton("All Passwords", self)
-        wifi_button = QPushButton("Wifi Passwords", self)
-        deleted_button = QPushButton("Deleted Passwords", self)
-        password_creation = QPushButton("New Password Entry", self)
+        all_button.clicked.connect(self.show_all_passwords)
         
+        wifi_button = QPushButton("Wifi Passwords", self)
+        wifi_button.clicked.connect(self.show_wifi_passwords)
+        
+        deleted_button = QPushButton("Deleted Passwords", self)
+        deleted_button.clicked.connect(self.show_deleted_passwords)
+
+        new_entry = QPushButton("New Password Entry", self)
+        new_entry.clicked.connect(self.password_creator)
+
+        #layout for main window when opened
         layout = QVBoxLayout()
         layout.addWidget(all_button)
         layout.addWidget(wifi_button)
         layout.addWidget(deleted_button)
-        layout.addWidget(password_creation)
+        layout.addWidget(new_entry)
 
         central_widget = QWidget()
         central_widget.setLayout(layout)
 
         self.setCentralWidget(central_widget)
-
         self.setGeometry(100,100,600,400)
+
+    #changes layout to allow you to view all passwords in alpha order
+    def show_all_passwords(self):
+        self.clear_layout(self.layout)
+        label = QLabel("Your passwords will be shown here!")
+        self.layout.addWidget(label)
+
+    def show_wifi_passwords(self):
+        self.clear_layout(self.layout)
+        label = QLabel("Your passwords will be shown here!")
+        self.layout.addWidget(label)
+
+    def show_deleted_passwords(self):
+        self.clear_layout(self.layout)
+        label = QLabel("Your passwords will be shown here!")
+        self.layout.addWidget(label)
+    
+    def password_creator(self):
+        self.clear_layout(self.layout)
+        label = QLabel("Your passwords will be shown here!")
+        self.layout.addWidget(label)
+    
 
 app = QApplication([])
 
