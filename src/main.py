@@ -1,4 +1,7 @@
-from PySide6.QtWidgets import (QApplication, QDialog, QLineEdit, QPushButton, QLabel, QVBoxLayout, QMainWindow, QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QLineEdit, QPushButton, QLabel, QVBoxLayout, QMainWindow, QWidget, QStackedLayout)
+import json
+from cryptography.fernet import Fernet
+
 
 class LoginDialog(QDialog):
     def __init__(self):
@@ -51,6 +54,15 @@ class MainAppWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Turtle Key Password Manager")
 
+        #central widget for main window
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        self.setGeometry(100,100,600,400)
+
+        #searchbar widget
+        search_bar = QLineEdit()
+        search_bar.setPlaceholderText("Enter information related to desired password")
+
         #Buttoms for task requests for password manager
         all_button = QPushButton("All Passwords", self)
         all_button.clicked.connect(self.show_all_passwords)
@@ -64,18 +76,32 @@ class MainAppWindow(QMainWindow):
         new_entry = QPushButton("New Password Entry", self)
         new_entry.clicked.connect(self.password_creator)
 
-        #layout for main window when opened
-        layout = QVBoxLayout()
-        layout.addWidget(all_button)
-        layout.addWidget(wifi_button)
-        layout.addWidget(deleted_button)
-        layout.addWidget(new_entry)
+        home_button = QPushButton("Home", self)
+        home_button.clicked.connect(lambda: self.stackedLayout.setCurrentIndex(0))
 
-        central_widget = QWidget()
-        central_widget.setLayout(layout)
+        #Starting layout for buttons to choose which page to go to
+        layout_zero = QVBoxLayout()
+        layout_zero.addWidget(search_bar)
+        layout_zero.addWidget(all_button)
+        layout_zero.addWidget(wifi_button)
+        layout_zero.addWidget(deleted_button)
+        layout_zero.addWidget(new_entry)
 
-        self.setCentralWidget(central_widget)
-        self.setGeometry(100,100,600,400)
+        layout_zero_widget = QWidget()
+        layout_zero_widget.setLayout(layout_zero)
+
+        #layout for all passwords page
+        layout_one = QVBoxLayout()
+        layout_one.addWidget()
+
+        #Stackedlayout for main window when buttons are pushed to display other windows
+        self.stackedLayout = QStackedLayout()
+        self.stackedLayout.addWidget(layout_zero)
+
+        # Set the stacked layout as the central layout
+        central_layout = QVBoxLayout()
+        central_layout.addLayout(self.stackedLayout)
+        central_widget.setLayout(central_layout)
 
     #changes layout to allow you to view all passwords in alpha order
     def show_all_passwords(self):
@@ -97,6 +123,7 @@ class MainAppWindow(QMainWindow):
         self.clear_layout(self.layout)
         label = QLabel("Your passwords will be shown here!")
         self.layout.addWidget(label)
+
     
 
 app = QApplication([])
