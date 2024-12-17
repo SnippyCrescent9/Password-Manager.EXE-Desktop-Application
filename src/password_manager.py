@@ -4,6 +4,7 @@ from tabulate import tabulate
 from cryptography.fernet import Fernet
 from getpass import getpass
 
+#Must find a way to recreate this using SQLite and SLQCipher
 class Password_manager:
     def __init__(self):
         self.key = self.load_key()
